@@ -1,15 +1,18 @@
-FROM alpine:3
+FROM alpine:edge
 
+ARG BUILD_DATE
+
+LABEL summary="Alpine OpenRC Container Image."
 LABEL maintainer="Uco Mesdag <uco@mesd.ag>"
-LABEL build_date="2021-03-13T13:16:04CET"
+LABEL build-date=${BUILD_DATE}
 
-ENV container=docker
+ENV container=podman
 
-# Enable init.
-RUN apk add --update --no-cache openrc && \
+# Enable init and install required packages.
+RUN apk add --update --no-cache openrc sudo python3 && \
     sed -i 's/^\(tty\d\:\:\)/#\1/g' /etc/inittab && \
     sed -i \
-      -e 's/#rc_sys=".*"/rc_sys="docker"/g' \
+      -e 's/#rc_sys=".*"/rc_sys="podman"/g' \
       -e 's/#rc_env_allow=".*"/rc_env_allow="\*"/g' \
       -e 's/#rc_crashed_stop=.*/rc_crashed_stop=NO/g' \
       -e 's/#rc_crashed_start=.*/rc_crashed_start=YES/g' \
@@ -22,8 +25,7 @@ RUN apk add --update --no-cache openrc && \
       /etc/init.d/modules-load \
       /etc/init.d/modloop && \
     sed -i 's/cgroup_add_service /# cgroup_add_service /g' /lib/rc/sh/openrc-run.sh && \
-    sed -i 's/VSERVER/DOCKER/Ig' /lib/rc/sh/init.sh
+    sed -i 's/VSERVER/PODMAN/Ig' /lib/rc/sh/init.sh
 
 VOLUME ["/sys/fs/cgroup"]
-
 CMD ["/sbin/init"]
