@@ -1,19 +1,19 @@
-Docker Alpine openrc
+Alpine OpenRC Container Image
 ====================
 
-This Dockerfile can build containers capable to use openrc.
+This Containerfile can build containers capable to use openrc.
 
-[![centos build status]((https://quay.io/repository/mesdag/alpine/status "Docker Repository on Quay")](https://quay.io/repository/mesdag/alpine)
+[![alpine build status](https://quay.io/repository/ucomesdag/alpine/status "Container Repository on Quay")](https://quay.io/repository/ucomesdag/alpine)
 
 Branches
 --------
 
 This repository has multiple branches that relate to Alpine versions.
 
-|Branch |Alpine Version|Docker image tag|
-|-------|--------------|----------------|
-|master |3             |3               |
-|edge   |edge          |edge            |
+|Branch |Alpine Version|Container image tag|
+|-------|--------------|-------------------|
+|main   |3             |3                  |
+|edge   |edge          |edge               |
 
 Pull strategy
 -------------
@@ -24,9 +24,9 @@ Manually starting
 -----------------
 
 ```
-docker run \
+podman run \
   --tty \
   --privileged \
   --volume /sys/fs/cgroup:/sys/fs/cgroup:ro \
-  quay.io/mesdag/alpine
+  quay.io/ucomesdag/alpine
 ```
